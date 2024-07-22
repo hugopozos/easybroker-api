@@ -32,5 +32,21 @@ class EasyBrokerService implements EasyBrokerServiceInterface
         return json_decode($response->getBody()->getContents(), true);
     }
 
+    public function getProperties($page, $limit, $search = [])
+    {
+        $response = $this->client->request('GET', 'properties', [
+            'headers' => [
+                'X-Authorization' => $this->apiKey,
+                'Accept' => 'application/json',
+            ],
+            'query' => array_merge([
+                'page' => $page,
+                'limit' => $limit,
+            ], $search),
+        ]);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
 
 }

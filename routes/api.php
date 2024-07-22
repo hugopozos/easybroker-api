@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ContactRequestController;
+use App\Http\Controllers\Api\PropertyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('contact-requests', ContactRequestController::class)->only(['index']);
+Route::apiResource('properties', PropertyController::class)->only(['index']);
 

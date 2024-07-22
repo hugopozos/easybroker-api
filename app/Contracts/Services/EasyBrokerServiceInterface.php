@@ -11,4 +11,12 @@ interface EasyBrokerServiceInterface
      */
     public function getContactRequests($page, $limit);
 
+    /*
+     * Obtiene toda una lista de propiedades
+     * @param int $page
+     * @param int $limit
+     * @param array $search
+     */
+    public function getProperties($page, $limit, $search = []);
+
 }
