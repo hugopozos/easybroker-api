@@ -3,37 +3,38 @@
 namespace Tests\Feature;
 
 use App\Contracts\Services\EasyBrokerServiceInterface;
-use App\Http\Controllers\Api\ContactRequestController;
+use App\Http\Controllers\Api\PropertyController;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 use Mockery;
 
-class ContactRequestControllerTest extends TestCase
+class PropertyControllerTest extends TestCase
 {
     use WithoutMiddleware;
 
     /**
-     * Prueba que el método index del controlador ContactRequestController funcione correctamente
+     * Prueba que el método index del controlador PropertyController funcione correctamente
      *
      * @return void
      */
     public function testIndex()
     {
         $mockService = Mockery::mock(EasyBrokerServiceInterface::class);
-        $mockService->shouldReceive('getContactRequests')
+        $mockService->shouldReceive('getProperties')
             ->once()
-            ->with(1, 20)
+            ->with(1, 20, [])
             ->andReturn([
-                'data' => [
-                    ['id' => 1, 'name' => 'Test Contact Request']
+                'content' => [
+                    ['title' => 'Test Property 1'],
+                    ['title' => 'Test Property 2']
                 ]
             ]);
 
-        $controller = new ContactRequestController($mockService);
+        $controller = new PropertyController($mockService);
 
-        $request = Request::create('/api/contact-requests', 'GET', ['page' => 1, 'limit' => 20]);
+        $request = Request::create('/api/properties', 'GET', ['page' => 1, 'limit' => 20]);
 
         $response = $controller->index($request);
 
@@ -41,9 +42,8 @@ class ContactRequestControllerTest extends TestCase
 
         $data = $response->getData(true);
         $this->assertEquals([
-            'data' => [
-                ['id' => 1, 'name' => 'Test Contact Request']
-            ]
+            'Test Property 1',
+            'Test Property 2'
         ], $data);
     }
 }
