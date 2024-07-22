@@ -26,7 +26,9 @@ class ContractServiceProvider extends ServiceProvider
         /**
          * Bind services
          */
-
-
+        $this->app->bind(
+            \App\Contracts\Services\EasyBrokerServiceInterface::class,
+            \App\Services\EasyBrokerService::class
+        );
     }
 }
