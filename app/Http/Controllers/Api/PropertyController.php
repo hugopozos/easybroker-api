@@ -13,6 +13,12 @@ class PropertyController extends Controller
         protected readonly EasyBrokerServiceInterface $easyBrokerService
     ){}
 
+    /**
+     * Despliega una lista de propiedades mostrando solamente sus titulos
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         $page = $request->query('page', 1);
@@ -20,6 +26,11 @@ class PropertyController extends Controller
         $search = $request->query('search', []);
 
         $properties = $this->easyBrokerService->getProperties($page, $limit, $search);
-        return response()->json($properties);
+
+        $titles = array_map(function($property) {
+            return $property['title'];
+        }, $properties['content']);
+
+        return response()->json($titles);
     }
 }
